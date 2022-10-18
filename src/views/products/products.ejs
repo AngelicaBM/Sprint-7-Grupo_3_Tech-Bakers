@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head.ejs -->
+  <%- include ('../partials/head.ejs') %>
+  <body>
+    <!-- Header.ejs -->
+    <%- include ('../partials/header.ejs') %>
+    <main>
+      <div class="p-details-cake">
+        <section class="destacados">
+          <h3 class="pdest">Nuestros productos</h3>
+          <div class="imgprod">
+        <!-- Foreach que ayuda a evitar crear varios articulos de forma estatica -->
+        <% products.forEach(product => { %>
+          <article>
+              <figure>
+                  <a href="/products/productDetails/<%= product.id %>"><img src="/images/products/<%= product.Images[0].fileName %> "></a>
+              </figure>
+              <div class="descripciondest">
+                  <i class="fa-solid fa-basket-shopping"></i>
+                  <div class="info-product">
+                      <p class="name-product"><%= product.name %></p>
+                      <% if(product.discount > 0) { 
+                        let finalPrice = (product.price * ((100 - product.discount) / 100)).toFixed(0)
+                      %>
+                        <p class="product-detail-price discount">
+                          <span>$<%= toThousand(product.price) %></span>
+                          <b><%= product.discount %>% OFF</b>
+                        </p>
+                        <p class="product-detail-price-list">
+                          $<%= toThousand(finalPrice) %>
+                        </p>
+                      <% } else { %>
+                        <p class="product-detail-price-list">
+                          $<%= toThousand(product.price) %>
+                        </p>
+                      <% } %>
+                  </div>
+              </div>
+          </article>
+      <% }) %>
+      </div>
+      </section>
+    </main>
+    <!-- Footer.ejs -->
+    <%- include ('../partials/footer.ejs') %>
+  </body>
+</html>
